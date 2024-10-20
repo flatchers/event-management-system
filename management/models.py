@@ -1,5 +1,7 @@
 from django.db import models
 
+from system import settings
+
 
 class Event(models.Model):
     class CategoryEvent(models.TextChoices):
@@ -17,3 +19,8 @@ class Event(models.Model):
     hold_date = models.DateTimeField()
     seats = models.PositiveIntegerField
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class EventRegistration:
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, related_name="registrations", on_delete=models.CASCADE)
