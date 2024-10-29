@@ -15,7 +15,7 @@ class Event(models.Model):
         NETWORKING = "Networking"
         MUSIC_FESTIVAL = "Music festival"
 
-    event_category = models.CharField(max_length=255, choices=CategoryEvent)
+    event_category = models.CharField(max_length=255, choices=CategoryEvent.choices)
     name = models.CharField(max_length=255)
     description = models.TextField()
     hold_date = models.DateTimeField()
@@ -23,8 +23,8 @@ class Event(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-class EventRegistration:
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class EventRegistration(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="registrations", on_delete=models.CASCADE)
     event = models.ForeignKey(Event, related_name="registrations", on_delete=models.CASCADE)
 
 
@@ -33,7 +33,7 @@ class Payment:
         PENDING = "PENDING"
         PAID = "PAID"
 
-    status = models.CharField(max_length=255, choices=Status)
+    status = models.CharField(max_length=255, choices=Status.choices)
     registration_id = models.ForeignKey(EventRegistration,on_delete=models.CASCADE, related_name="payments")
     session_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     session_url = models.URLField(max_length=200, null=True)
