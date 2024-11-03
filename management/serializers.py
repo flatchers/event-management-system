@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from models import Event, EventRegistration
+from models import Event, EventRegistration, Payment
 
 
 class EventSerializer(serializers.Serializer):
@@ -23,6 +23,17 @@ class EventSerializer(serializers.Serializer):
         instance.price = validated_data.get("price", instance.price)
         instance.save()
         return instance
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = (
+            "status",
+            "session_id",
+            "session_url",
+            "money_to_pay"
+        )
 
 
 class EventRegistrationSerializer(serializers.Serializer):
