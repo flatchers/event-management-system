@@ -34,13 +34,13 @@ class EventRegistration(models.Model):
         return self.event.name
 
 
-class Payment:
+class Payment(models.Model):
     class Status(models.TextChoices):
         PENDING = "PENDING"
         PAID = "PAID"
 
     status = models.CharField(max_length=255, choices=Status.choices)
-    registration_id = models.ForeignKey(EventRegistration,on_delete=models.CASCADE, related_name="payments")
+    registration_id = models.ForeignKey(EventRegistration, on_delete=models.CASCADE, related_name="payments")
     session_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     session_url = models.URLField(max_length=200, null=True)
     money_to_pay = models.ManyToManyField(EventRegistration)
