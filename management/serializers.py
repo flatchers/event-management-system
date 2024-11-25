@@ -36,5 +36,13 @@ class PaymentSerializer(serializers.ModelSerializer):
         )
 
 
-class EventRegistrationSerializer(serializers.Serializer):
-    pass
+class EventRegistrationSerializer(serializers.ModelSerializer):
+    payment = PaymentSerializer
+
+    class Meta:
+        model = EventRegistration
+        fields = (
+            "user",
+            "event",
+            "payment"
+        )
